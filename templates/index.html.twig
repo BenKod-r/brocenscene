@@ -1,0 +1,179 @@
+{% extends "base.html.twig" %}
+    {% block body %}
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+            <div class="container">
+                <img class="mr-2" src="{{ asset('img/logo.png') }}" style="width: 50px" alt="logo"><a class="broc navbar-brand js-scroll-trigger" href="{{ path('home_index') }}">brocenscene.com</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto my-2 my-lg-0">
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">À propos de nous</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">Services</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Projets</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('shop_index') }}">Boutique</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('showroom_index') }}">Showroom</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center justify-content-center text-center">
+                    <div class="col-lg-10 align-self-end">
+                        <h1 class="text-uppercase text-white font-weight-bold">Broc en Scène</h1>
+                        <hr class="divider my-4" />
+                    </div>
+                    <div class="col-lg-8 align-self-baseline">
+                        <p class="text-white-75 font-weight-light mb-5">
+                            Envie de changement ou de renouveaux.
+                            Bienvenue chez BROC EN SCÈNE.
+                            Amoureuse de vieilles patines, je sélectionne pour vous des objets et mobiliers anciens.</p>
+                        <a class="btn btn-dark btn-xl js-scroll-trigger" href="#about">DÉCOUVRIR</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- About-->
+        <section class="page-section bg-dark" id="about">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <h2 class="text-white mt-0">Nous avons ce dont vous avez besoin!</h2>
+                        <hr class="divider light my-4" />
+                        <p class="text-white-50 mb-4">Start Bootstrap a tout ce dont vous avez besoin pour que votre nouveau site Web soit opérationnel en un rien de temps! Choisissez l'un de nos thèmes open source, gratuits à télécharger et faciles à utiliser! Sans attaches!</p>
+                        <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Commencer!</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Services-->
+        <section class="page-section" id="services">
+            <div class="container">
+                <h2 class="text-center mt-0">À votre service</h2>
+                <hr class="divider my-4" />
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 text-center">
+                        <div class="mt-5">
+                            <i class="fas fa-4x fa-gem text-dark mb-4"></i>
+                            <i class="fas fa-4x fa-couch text-dark mb-4"></i>
+                            <h3 class="h4 mb-2">Thèmes robustes</h3>
+                            <p class="text-muted mb-0">Nos thèmes sont mis à jour régulièrement pour les garder sans bogue!</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 text-center">
+                        <div class="mt-5">
+                            <i class="fas fa-4x fa-laptop-code text-dark mb-4"></i>
+                            <i class="fas fa-4x fa-chair text-dark mb-4"></i>
+                            <h3 class="h4 mb-2">À jour</h3>
+                            <p class="text-muted mb-0">Toutes les dépendances sont tenues à jour pour garder les choses fraîches.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 text-center">
+                        <div class="mt-5">
+                            <i class="fas fa-4x fa-globe text-dark mb-4"></i>
+                            <i class="fas fa-4x fa-gifts text-dark  mb-4"></i>
+                            <h3 class="h4 mb-2">Prêt à publier</h3>
+                            <p class="text-muted mb-0">Vous pouvez utiliser cette conception telle quelle ou apporter des modifications!</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 text-center">
+                        <div class="mt-5">
+                            <i class="fas fa-4x fa-heart text-dark mb-4"></i>
+                            <i class="fas fa-4x fa fa-comments text-dark mb-4"></i>
+                            <h3 class="h4 mb-2">Fait avec amour</h3>
+                            <p class="text-muted mb-0">Est-ce vraiment open source si ce n'est pas fait avec amour?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Portfolio-->
+        <section class="page-section bg-dark" id="portfolio">
+            <div>
+                <h2 class="text-white text-center">Nos clients nous font confiance!</h2>
+                <hr class="divider light my-4" />
+                <div class="container-fluid p-0">
+                    <div class="row no-gutters">
+                        <div class="col-lg-4 col-sm-6">
+                            <a class="portfolio-box" href="{{ asset('/img/portfolio/fullsize/bg-1.jpg') }}">
+                                <img class="img-fluid" style="width: 650px; height: 350px;" src="{{ asset('/img/portfolio/thumbnails/bg-2.jpg') }}" alt="" />
+                                <div class="portfolio-box-caption">
+                                    <div class="project-category text-white-75">Garde manger baroque</div>
+                                    <div class="project-name">Meuble renové entierement et vendu à Amelie Trouvart. Un grand merci pour sa confiance</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <a class="portfolio-box" href="{{ asset('/img/portfolio/fullsize/2.jpg') }}">
+                                <img class="img-fluid" style="width: 650px; height: 350px;" src="{{ asset('/img/portfolio/thumbnails/2.jpg') }}" alt="" />
+                                <div class="portfolio-box-caption">
+                                    <div class="project-category text-white-75">Category</div>
+                                    <div class="project-name">Project Name</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <a class="portfolio-box" href="{{ asset('/img/portfolio/fullsize/3.jpg') }}">
+                                <img class="img-fluid" style="width: 650px; height: 350px;" src="{{ asset('/img/portfolio/thumbnails/3.jpg') }}" alt="" />
+                                <div class="portfolio-box-caption">
+                                    <div class="project-category text-white-75">Category</div>
+                                    <div class="project-name">Project Name</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <a class="portfolio-box" href="{{ asset('/img/portfolio/fullsize/4.jpg') }}">
+                                <img class="img-fluid" style="width: 650px; height: 350px;" src="{{ asset('/img/portfolio/thumbnails/4.jpg') }}" alt="" />
+                                <div class="portfolio-box-caption">
+                                    <div class="project-category text-white-75">Category</div>
+                                    <div class="project-name">Project Name</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <a class="portfolio-box" href="{{ asset('/img/portfolio/fullsize/5.jpg') }}">
+                                <img class="img-fluid" style="width: 650px; height: 350px;" src="{{ asset('/img/portfolio/thumbnails/5.jpg') }}" alt="" />
+                                <div class="portfolio-box-caption">
+                                    <div class="project-category text-white-75">Category</div>
+                                    <div class="project-name">Project Name</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <a class="portfolio-box" href="{{ asset('/img/portfolio/fullsize/6.jpg') }}">
+                                <img class="img-fluid" style="width: 650px; height: 350px;" src="{{ asset('/img/portfolio/thumbnails/6.jpg') }}" alt="" />
+                                <div class="portfolio-box-caption p-3">
+                                    <div class="project-category text-white-75">Category</div>
+                                    <div class="project-name">Project Name</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Call to action-->
+        <section class="page-section bg-dark text-white" style="padding-top: 0">
+            <div class="container text-center">
+                <a class="text-decoration-none text-white" href="https://www.instagram.com/brocenscene/" target="_blank"><h2 class="d-flex align-items-center justify-content-center">
+                    <i class="fab fa-3x fa-instagram mr-3" style="background: linear-gradient(315deg,#E91E63,#5D02FF); border-radius: 20%;"></i>
+                    Instagram<br>
+                    Suivez nous!
+                </h2></a>
+                <a class="btn btn-light btn-xl" href="https://www.instagram.com/brocenscene/" target="_blank"><h3>{{ followers.count }} followers</h3></a>
+            </div>
+        </section>
+
+        {% block footer %}
+            {% include 'footer.html.twig' %}
+        {% endblock %}
+
+    </body>
+    {% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('js/base.js') }}"></script>
+    {% endblock %}
