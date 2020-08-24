@@ -5,30 +5,38 @@
         {% include 'shop/nav_shop.html.twig' %}
 
         <section  class="container mb-5" style="padding-top: 8rem">
-            <h1 class="text-center text-white">Produits disponibles</h1>
-            <div class="product-item">
-                <div class="product-item-title d-flex">
-                    <div class="bg-faded p-5 d-flex justify-content-center rounded w-100">
-                        <h2 class="section-heading mb-0">
-                            <span class="section-heading-upper">From Around the World</span>
-                        </h2>
+            <h1 class="broc text-center text-white">Merveilles à adopter</h1>
+            {% for product in products %}
+                {% if product.status == true %}
+
+                <div class="product-item">
+                    <div class="product-item-title d-flex">
+                        {% if app.user %}
+                            <a class="btn btn-info text-decoration-none text-white d-flex align-items-center" href="{{ path('product_new') }}">Merveille adoptée</a>
+                        {% endif %}
+                        <div class="bg-faded p-5 d-flex justify-content-center rounded w-100">
+                            <h2 class="section-heading mb-0">
+                                <span class="section-heading-upper text-break">{{ product.name }}</span>
+                            </h2>
+                        </div>
+                        {% if app.user %}
+                        <a class="btn btn-info text-decoration-none text-white d-flex align-items-center" href="{{ path('product_new') }}">Modifier l'élément</a>
+                        {% endif %}
                     </div>
                 </div>
-            </div>
+
             <div id="carouselExampleIndicators" class="carousel slide container" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="product-item-img mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="{{ asset('/img/portfolio/thumbnails/bg-2.jpg') }}" alt="">
+                        <img class="product-item-img mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="{{ asset('uploads/img/' ~ product.poster.slug) }}" alt="">
                     </div>
+                    {% if product.image is not empty %}
+                        {% for image in product.image %}
                     <div class="carousel-item">
-                        <img class="product-item-img mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="{{ asset('/img/portfolio/thumbnails/1.jpg') }}" alt="">
+                        <img class="product-item-img mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="{{ asset('uploads/img/' ~ image.slug) }}" alt="">
                     </div>
-                    <div class="carousel-item">
-                        <img class="product-item-img mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="{{ asset('/img/portfolio/thumbnails/2.jpg') }}" alt="">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="product-item-img mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="{{ asset('/img/portfolio/thumbnails/3.jpg') }}" alt="">
-                    </div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -39,13 +47,24 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+
             <div class="product-item">
                 <div class="product-item-title d-flex mr-auto mb-5">
                     <div class="bg-faded p-5 rounded w-100">
-                        <p class="mb-0">Our seasonal menu features delicious snacks, baked goods, and even full meals perfect for breakfast or lunchtime. We source our ingredients from local, oragnic farms whenever possible, alongside premium vendors for specialty goods.</p>
+                        <p class="mb-5 text-break text-justify">{{ product.description }}</p>
+                        <form class="d-flex justify-content-center" method="post" action="{{ path('product_delete', {'id': product.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce produit?');">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                            <button class="btn btn-danger">Supprimer cet objet</button>
+                        </form>
                     </div>
+
                 </div>
             </div>
+
+                {% endif %}
+            {% endfor %}
+
         </section>
 
         {% block footer %}
