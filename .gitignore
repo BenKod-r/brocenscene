@@ -1,5 +1,6 @@
 /.idea
 /.history
+/public/uploads/img
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php

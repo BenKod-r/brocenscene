@@ -51,7 +51,7 @@ class Product
     private $poster;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Image::class, inversedBy="iproduct")
+     * @ORM\ManyToMany(targetEntity=Image::class, inversedBy="iproduct", cascade={"persist"})
      */
     private $image;
 

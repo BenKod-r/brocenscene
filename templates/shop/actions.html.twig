@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Image{% endblock %}
+
+{% block body %}
+    <body class="container">
+        <h1 class="text-center">Choisissez une action</h1>
+
+        <a class="btn btn-outline-dark btn-block mt-5 mb-3" href="{{ path('product_new_image', {'product' : product.id }) }}">Ajouter des images</a>
+        <a class="btn btn-outline-dark btn-block mt-5 mb-3" href="{{ path('product_edit', {'product' : product.id }) }}">Modifier l'élément</a>
+    </body>
+{% endblock %}

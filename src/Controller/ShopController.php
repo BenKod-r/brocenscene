@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\Product;
+use App\Form\ImageType;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Service\FileUploader;
@@ -95,7 +96,86 @@ class ShopController extends AbstractController
     }
 
     /**
-     * @Route("/product/{id}/edit", name="product_edit", methods={"GET","POST"})
+     * @Route("/adopt/{product}", name="shop_adopt")
+     * @param Product $product
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
+    public function adopt(Product $product, EntityManagerInterface $entityManager): Response
+    {
+        if ($product->getStatus() === true)
+            $product->setStatus(false);
+        else
+            $product->setStatus(true);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('shop_index');
+    }
+
+    /**
+     * @Route("/action/{product}", name="shop_actions")
+     * @param Product $product
+     * @return Response
+     */
+    public function action(Product $product): Response
+    {
+        return $this->render('shop/actions.html.twig', [
+            'product' => $product
+        ]);
+    }
+
+    /**
+     * @Route("/image/{product}/new", name="product_new_image", methods={"GET","POST"})
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param FileUploader $fileUploader
+     * @param Product $product
+     * @return Response
+     */
+    public function newImage(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader, Product $product): Response
+    {
+        $form = $this->createForm(ImageType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $files */
+            $files = $form->get('img')->getData();
+
+            foreach ($files as $file) {
+                try {
+                    $imgSlug = $fileUploader->upload($file, $product->getName());
+
+                } catch (IniSizeFileException | FormSizeFileException $e) {
+                    $this->addFlash('warning' , 'Votre fichier est trop lourd, il ne doit pas dépasser 1Mo.');
+                    return $this->redirectToRoute('product_new');
+                } catch (ExtensionFileException $e) {
+                    $this->addFlash('warning' , 'Le format de votre fichier n\'est pas supporté.
+                    Votre fichier doit être au format jpeg, jpg ou png.');
+                    return $this->redirectToRoute('product_new');
+                } catch (PartialFileException | NoFileException | CannotWriteFileException $e) {
+                    $this->addFlash('warning' , 'Fichier non enregistré, veuillez réessayer.
+                    Si le problème persiste, veuillez contacter l\'administrateur du site');
+                    return $this->redirectToRoute('product_new');
+                }
+
+                $image = new image();
+                $image->setName($product->getName());
+                $image->setSlug($imgSlug);
+                $image->addIproduct($product);
+            }
+
+            $entityManager->flush();
+            return $this->redirectToRoute('shop_index');
+        }
+
+        return $this->render('shop/image.html.twig', [
+            'product' => $product,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/product/{product}/edit", name="product_edit", methods={"GET","POST"})
      * @param Request $request
      * @param Product $product
      * @param EntityManagerInterface $entityManager
@@ -109,7 +189,7 @@ class ShopController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('product_index');
+            return $this->redirectToRoute('shop_index');
         }
 
         return $this->render('shop/edit.html.twig', [
@@ -129,18 +209,21 @@ class ShopController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
 
+            if (!empty($product->getPoster())) {
+                if (file_exists($this->getParameter('uploads_directory') . '/' . $product->getPoster()->getSlug()))
+                    unlink($this->getParameter('uploads_directory') . '/' . $product->getPoster()->getSlug());
+                $entityManager->remove($product->getPoster());
+            }
+
             if(!empty($product->getImage())) {
                 foreach ($product->getImage() as $image) {
                     if (file_exists($this->getParameter('uploads_directory') . '/' . $image->getSlug()))
                         unlink($this->getParameter('uploads_directory') . '/' . $image->getSlug());
                     $product->removeImage($image);
+                    $entityManager->remove($image);
                 }
             }
 
-            if (file_exists($this->getParameter('uploads_directory') . '/' . $product->getPoster()->getSlug()))
-                unlink($this->getParameter('uploads_directory') . '/' . $product->getPoster()->getSlug());
-
-            $entityManager->remove($product->getPoster());
             $entityManager->remove($product);
             $entityManager->flush();
         }

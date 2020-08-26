@@ -31,7 +31,7 @@ class Image
     private $pproduct;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Product::class, mappedBy="image")
+     * @ORM\ManyToMany(targetEntity=Product::class, mappedBy="image", cascade={"persist"})
      */
     private $iproduct;
 

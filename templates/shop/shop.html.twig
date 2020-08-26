@@ -7,20 +7,28 @@
         <section  class="container mb-5" style="padding-top: 8rem">
             <h1 class="broc text-center text-white">Merveilles à adopter</h1>
             {% for product in products %}
-                {% if product.status == true %}
+
 
                 <div class="product-item">
                     <div class="product-item-title d-flex">
+                    {% if product.status == true %}
                         {% if app.user %}
-                            <a class="btn btn-info text-decoration-none text-white d-flex align-items-center" href="{{ path('product_new') }}">Merveille adoptée</a>
+                        <a class="btn btn-info text-decoration-none text-white d-flex align-items-center" href="{{ path('shop_adopt', {"product" : product.id}) }}">Merveille adoptée</a>
                         {% endif %}
+                    {% else %}
+                        <a class="btn btn-info text-decoration-none text-white d-flex align-items-center" href="{{ path('shop_adopt', {"product" : product.id}) }}">Merveille disponible</a>
+                    {% endif%}
                         <div class="bg-faded p-5 d-flex justify-content-center rounded w-100">
                             <h2 class="section-heading mb-0">
-                                <span class="section-heading-upper text-break">{{ product.name }}</span>
+                            {% if product.status == true %}
+                            <span class="section-heading-upper text-break">{{ product.name }}</span>
+                            {% else %}
+                            <span class="section-heading-upper text-break">Merveille adoptée</span>
+                            {% endif %}
                             </h2>
                         </div>
                         {% if app.user %}
-                        <a class="btn btn-info text-decoration-none text-white d-flex align-items-center" href="{{ path('product_new') }}">Modifier l'élément</a>
+                        <a class="btn btn-info text-decoration-none text-white d-flex align-items-center" href="{{ path('shop_actions', {"product": product.id}) }}">Modifier l'élément</a>
                         {% endif %}
                     </div>
                 </div>
@@ -51,18 +59,23 @@
             <div class="product-item">
                 <div class="product-item-title d-flex mr-auto mb-5">
                     <div class="bg-faded p-5 rounded w-100">
+                        {% if product.status == true %}
                         <p class="mb-5 text-break text-justify">{{ product.description }}</p>
+                        {% else %}
+                            <p class="mb-5 text-break text-justify">Cette merveille à été adoptée...</p>
+                        {% endif %}
+                        {% if app.user %}
                         <form class="d-flex justify-content-center" method="post" action="{{ path('product_delete', {'id': product.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce produit?');">
                             <input type="hidden" name="_method" value="DELETE">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
                             <button class="btn btn-danger">Supprimer cet objet</button>
                         </form>
+                        {% endif %}
                     </div>
 
                 </div>
             </div>
 
-                {% endif %}
             {% endfor %}
 
         </section>

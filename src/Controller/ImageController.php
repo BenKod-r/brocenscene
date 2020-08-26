@@ -17,6 +17,8 @@ class ImageController extends AbstractController
 {
     /**
      * @Route("/", name="image_index", methods={"GET"})
+     * @param ImageRepository $imageRepository
+     * @return Response
      */
     public function index(ImageRepository $imageRepository): Response
     {
@@ -27,6 +29,8 @@ class ImageController extends AbstractController
 
     /**
      * @Route("/new", name="image_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -50,6 +54,8 @@ class ImageController extends AbstractController
 
     /**
      * @Route("/{id}", name="image_show", methods={"GET"})
+     * @param Image $image
+     * @return Response
      */
     public function show(Image $image): Response
     {
@@ -60,6 +66,9 @@ class ImageController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="image_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Image $image
+     * @return Response
      */
     public function edit(Request $request, Image $image): Response
     {
@@ -80,6 +89,9 @@ class ImageController extends AbstractController
 
     /**
      * @Route("/{id}", name="image_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Image $image
+     * @return Response
      */
     public function delete(Request $request, Image $image): Response
     {
