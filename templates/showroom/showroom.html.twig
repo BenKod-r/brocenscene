@@ -1,8 +1,8 @@
 {% extends 'base.html.twig'%}
 {% block body %}
-  <body id="page-top">
-    {% include 'showroom/nav_showroom.html.twig' %}
+
     <section class="page-section about-heading bg-dark">
+      <h1 class="broc text-center text-white">Showroom</h1>
       <div class="container">
         <img class="img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{ asset('img/showroom.jpg') }}" alt="showroom">
         <div class="about-heading-content">
@@ -10,7 +10,7 @@
             <div class="col-xl-9 col-lg-10 mx-auto">
               <div class="bg-faded rounded p-5">
                 <h2 class="section-heading mb-4">
-                  <span class="section-heading-upper">Strong Coffee, Strong Roots</span>
+                  <span class="broc section-heading-upper">Showroom chaleureux brocenscene</span>
                 </h2>
                 <p>Founded in 1987 by the Hernandez brothers, our establishment has been serving up rich coffee sourced from artisan farmers in various regions of South and Central America. We are dedicated to travelling the world, finding the best coffee, and bringing back to you here in our cafe.</p>
                 <p class="mb-0">We guarantee that you will fall in
@@ -30,35 +30,35 @@
             <div class="cta-inner text-center rounded bg-dark text-white">
               <h2 class="section-heading mb-5">
                 <span class="section-heading-upper">On vous attend !</span>
-                <span class="section-heading-lower">Horaires d'ouverture</span>
+                <span class="broc section-heading-lower">Horaires</span>
               </h2>
               <ul class="list-unstyled list-hours mb-5 text-left mx-auto">
                 <li class="list-unstyled-item list-hours-item d-flex">
-                  Sunday
-                  <span class="ml-auto">Closed</span>
+                  Dimanche
+                  <span class="ml-auto">Fermé</span>
                 </li>
                 <li class="list-unstyled-item list-hours-item d-flex">
-                  Monday
+                  Lundi
+                  <span class="ml-auto">7h-12h 15h-20h</span>
+                </li>
+                <li class="list-unstyled-item list-hours-item d-flex">
+                  Mardi
                   <span class="ml-auto">7:00 AM to 8:00 PM</span>
                 </li>
                 <li class="list-unstyled-item list-hours-item d-flex">
-                  Tuesday
+                  Mercredi
                   <span class="ml-auto">7:00 AM to 8:00 PM</span>
                 </li>
                 <li class="list-unstyled-item list-hours-item d-flex">
-                  Wednesday
+                  Jeudi
                   <span class="ml-auto">7:00 AM to 8:00 PM</span>
                 </li>
                 <li class="list-unstyled-item list-hours-item d-flex">
-                  Thursday
+                  Vendredi
                   <span class="ml-auto">7:00 AM to 8:00 PM</span>
                 </li>
                 <li class="list-unstyled-item list-hours-item d-flex">
-                  Friday
-                  <span class="ml-auto">7:00 AM to 8:00 PM</span>
-                </li>
-                <li class="list-unstyled-item list-hours-item d-flex">
-                  Saturday
+                  Samedi
                   <span class="ml-auto">9:00 AM to 5:00 PM</span>
                 </li>
               </ul>
@@ -88,7 +88,7 @@
 
   </body>
 {% endblock %}
-{% block javascripts %}
+  {% block javascripts %}
   {{ parent() }}
   <script src="{{ asset('js/base.js') }}"></script>
-{% endblock %}
+  {% endblock %}

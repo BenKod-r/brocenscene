@@ -3,10 +3,12 @@
 {% block title %}New Image{% endblock %}
 
 {% block body %}
-    <body class="container">
-        <h1 class="text-center">Choisissez une action</h1>
+    <body class="container bg-dark text-white mt-5">
+        <h1 class="text-center mb-5">Choisissez une action</h1>
 
-        <a class="btn btn-outline-dark btn-block mt-5 mb-3" href="{{ path('product_new_image', {'product' : product.id }) }}">Ajouter des images</a>
-        <a class="btn btn-outline-dark btn-block mt-5 mb-3" href="{{ path('product_edit', {'product' : product.id }) }}">Modifier l'élément</a>
+        <a class="btn btn-outline-light btn-block mt-5 mb-3" href="{{ path('product_new_image', {'product' : product.id }) }}">Ajouter des images</a>
+        <a class="btn btn-outline-light btn-block mt-5 mb-3" href="{{ path('product_edit', {'product' : product.id }) }}">Modifier l'élément</a>
+        <a class="btn btn-light btn-block mt-5 mb-3" href="{{ path('home_index') }}">Retour à l'accueil</a>
+        <a class="btn btn-light btn-block mt-5 mb-3" href="{{ path('shop_index') }}">Retour à la boutique</a>
     </body>
 {% endblock %}

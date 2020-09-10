@@ -3,12 +3,12 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <section class="container">
+    <body class="container bg-dark text-white mt-5">
         {% for flashError in app.flashes('verify_email_error') %}
             <div class="alert alert-danger" role="alert">{{ flashError }}</div>
         {% endfor %}
 
-        <h1>Création Admin</h1>
+        <h1 class="text-center mb-5">Création Admin</h1>
 
         {{ form_start(registrationForm) }}
             {{ form_row(registrationForm.email) }}
@@ -17,8 +17,8 @@
             }) }}
             {{ form_row(registrationForm.agreeTerms) }}
 
-            <button type="submit" class="btn">Register</button>
+            <button type="submit" class="btn btn-outline-light">Register</button>
         {{ form_end(registrationForm) }}
-    </section>
+    </body>
 {% endblock %}
 

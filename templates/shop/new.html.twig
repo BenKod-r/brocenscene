@@ -3,11 +3,14 @@
 {% block title %}New Product{% endblock %}
 
 {% block body %}
-    <body class="container bg-dark text-white mt-5">
-        <h1 class="text-center">Ajouter un nouveau produit</h1>
+    <section class="page-section about-heading bg-dark " style="padding-top: 8rem">
+        <div class="text-white container">
+            <h1 class="text-center">Ajouter un nouveau produit</h1>
 
-        {{ include('shop/_form.html.twig') }}
+            {{ include('shop/_form.html.twig') }}
 
-        <a href="{{ path('shop_index') }}">back to list</a>
-    </body>
+            <a href="{{ path('shop_index') }}">back to list</a>
+        </div>
+    </section>
+
 {% endblock %}

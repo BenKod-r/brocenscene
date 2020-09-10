@@ -23,18 +23,9 @@ class IndexController extends AbstractController
     {
         $response = file_get_contents('https://www.instagram.com/brocenscene/?__a=1');
         $data = json_decode($response, true);
-        $followers = ($data["graphql"]["user"]["edge_followed_by"]);
+        $followers = $data["graphql"]["user"]["edge_followed_by"];
         return $this->render('index.html.twig', [
             "followers" => $followers,
         ]);
-    }
-
-    /**
-     * @Route("/showroom",name="showroom_index")
-     * @return Response
-     */
-    public function showroom() :Response
-    {
-        return $this->render('showroom.html.twig');
     }
 }

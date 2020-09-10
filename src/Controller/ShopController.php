@@ -12,6 +12,7 @@ use App\Entity\Image;
 use App\Entity\Product;
 use App\Form\ImageType;
 use App\Form\ProductType;
+use App\Form\UpdateProductType;
 use App\Repository\ProductRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -183,7 +184,7 @@ class ShopController extends AbstractController
      */
     public function edit(Request $request, Product $product, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(ProductType::class, $product);
+        $form = $this->createForm(UpdateProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

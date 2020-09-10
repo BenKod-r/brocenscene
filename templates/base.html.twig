@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Broc En Scène{% endblock %}</title>
@@ -20,16 +20,32 @@
             <link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet" />
         {% endblock %}
     </head>
+    <body id="page-top">
+    {% include 'navbar.html.twig' %}
+
+        {% for category, messages in app.flashes %}
+            {% for message in messages %}
+            <section class="bg-dark">
+                <div class="container alert alert-{{ category }}" style="margin-top: 100px;">
+                    {{ message }}
+                </div>
+            </section>
+            {% endfor %}
+        {% endfor %}
+
         {% block body %}
             {% block footer %}{% endblock %}
         {% endblock %}
+    </body>
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
             <!-- Bootstrap core JS-->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
             <!-- Third party plugin JS-->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+            <script src="{{ asset('js/base.js') }}"></script>
         {% endblock %}
 </html>

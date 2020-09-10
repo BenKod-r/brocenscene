@@ -16,10 +16,12 @@
 @import "_global";
 @import "_buttons";
 @import "_cta";
-@import "_products";
+@import "_products.scss";
 @import "_store";
 @import "_bootstrap-overrides";
 @import "_shop.scss";
+@import "_nav.scss";
+
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
