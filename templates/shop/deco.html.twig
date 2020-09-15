@@ -3,10 +3,10 @@
 
         <section  class="bg-dark pb-5" style="padding-top: 8rem">
             <div class="container">
-                <div class="link-shop d-flex justify-content-end pb-5">
-                    <a class="text-white fa-2x" href="{{ path('shop_deco') }}">Décorations</a><i class="fas fa-angle-double-right fa-3x text-danger"></i>
+                <div class="link-shop d-flex justify-content-start pb-5">
+                    <i class="fas fa-angle-double-left fa-3x text-danger"></i><a class="text-white fa-2x" href="{{ path('shop_index') }}">Meubles</a>
                 </div>
-                <h1 class="broc text-center text-white">Meubles à adopter</h1>
+                <h1 class="broc text-center text-white">Décorations à adopter</h1>
                 {% for product in products %}
                 <div class="product-item">
                     <div class="product-item-title d-flex">

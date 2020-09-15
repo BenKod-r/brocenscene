@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Image;
-use App\Form\ImageType;
+use App\Form\EditPosterType;
 use App\Repository\ImageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +35,7 @@ class ImageController extends AbstractController
     public function new(Request $request): Response
     {
         $image = new Image();
-        $form = $this->createForm(ImageType::class, $image);
+        $form = $this->createForm(EditPosterType::class, $image);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -72,7 +72,7 @@ class ImageController extends AbstractController
      */
     public function edit(Request $request, Image $image): Response
     {
-        $form = $this->createForm(ImageType::class, $image);
+        $form = $this->createForm(EditPosterType::class, $image);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

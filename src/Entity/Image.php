@@ -45,11 +45,17 @@ class Image
      */
     private $slug;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Content::class, mappedBy="poster")
+     */
+    private $posterIndex;
+
     public function __construct()
     {
         $this->pproduct = new ArrayCollection();
         $this->iproduct = new ArrayCollection();
         $this->creationDate = new DateTime();
+        $this->posterIndex = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -148,6 +154,37 @@ class Image
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Content[]
+     */
+    public function getPosterIndex(): Collection
+    {
+        return $this->posterIndex;
+    }
+
+    public function addPosterIndex(Content $posterIndex): self
+    {
+        if (!$this->posterIndex->contains($posterIndex)) {
+            $this->posterIndex[] = $posterIndex;
+            $posterIndex->setPoster($this);
+        }
+
+        return $this;
+    }
+
+    public function removePosterIndex(Content $posterIndex): self
+    {
+        if ($this->posterIndex->contains($posterIndex)) {
+            $this->posterIndex->removeElement($posterIndex);
+            // set the owning side to null (unless already changed)
+            if ($posterIndex->getPoster() === $this) {
+                $posterIndex->setPoster(null);
+            }
+        }
 
         return $this;
     }

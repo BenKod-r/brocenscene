@@ -43,7 +43,19 @@ class ShopController extends AbstractController
     public function index(ProductRepository $productRepository) :Response
     {
         return $this->render('shop/shop.html.twig', [
-            'products' => $productRepository->findBy([], ['creationDate' => 'DESC'])
+            'products' => $productRepository->findBy(['category' => 'Meuble'], ['creationDate' => 'DESC'])
+        ]);
+    }
+
+    /**
+     * @Route("/deco",name="shop_deco")
+     * @param ProductRepository $productRepository
+     * @return Response
+     */
+    public function deco(ProductRepository $productRepository) :Response
+    {
+        return $this->render('shop/deco.html.twig', [
+            'products' => $productRepository->findBy(['category' => 'Decoration'], ['creationDate' => 'DESC'])
         ]);
     }
 
@@ -61,7 +73,6 @@ class ShopController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             /** @var UploadedFile $posterFile */
             $posterFile = $form->get('img')->getData();
             try {
@@ -104,13 +115,13 @@ class ShopController extends AbstractController
      */
     public function adopt(Product $product, EntityManagerInterface $entityManager): Response
     {
-        if ($product->getStatus() === true)
-            $product->setStatus(false);
-        else
-            $product->setStatus(true);
+        if ($product->getStatus() === true) $product->setStatus(false);
+        else $product->setStatus(true);
+
         $entityManager->flush();
 
-        return $this->redirectToRoute('shop_index');
+        if ($product->getCategory() === 'Meuble') return $this->redirectToRoute('shop_index');
+        else return $this->redirectToRoute('shop_deco');
     }
 
     /**
@@ -143,9 +154,9 @@ class ShopController extends AbstractController
             $files = $form->get('img')->getData();
 
             foreach ($files as $file) {
+                /** @noinspection DuplicatedCode */
                 try {
                     $imgSlug = $fileUploader->upload($file, $product->getName());
-
                 } catch (IniSizeFileException | FormSizeFileException $e) {
                     $this->addFlash('warning' , 'Votre fichier est trop lourd, il ne doit pas dépasser 1Mo.');
                     return $this->redirectToRoute('product_new');
@@ -163,6 +174,7 @@ class ShopController extends AbstractController
                 $image->setName($product->getName());
                 $image->setSlug($imgSlug);
                 $image->addIproduct($product);
+                $entityManager->persist($image);
             }
 
             $entityManager->flush();
@@ -216,7 +228,7 @@ class ShopController extends AbstractController
                 $entityManager->remove($product->getPoster());
             }
 
-            if(!empty($product->getImage())) {
+            if (!empty($product->getImage())) {
                 foreach ($product->getImage() as $image) {
                     if (file_exists($this->getParameter('uploads_directory') . '/' . $image->getSlug()))
                         unlink($this->getParameter('uploads_directory') . '/' . $image->getSlug());

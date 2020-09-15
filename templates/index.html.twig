@@ -1,31 +1,55 @@
 {% extends "base.html.twig" %}
     {% block body %}
-        <header class="masthead">
+        {% if content_poster is not empty %}
+        <header class="masthead" style="background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url({{ asset('uploads/img/' ~ content_poster.poster.slug) }}); padding-top: 10rem; padding-bottom: calc(10rem - 4.5rem); background-position: center; background-repeat: no-repeat; background-size: cover;">
             <div class="container h-100">
                 <div class="row h-100 align-items-center justify-content-center text-center">
                     <div class="col-lg-10 align-self-end">
-                        <h1 class="text-uppercase text-white font-weight-bold">Broc en Scène</h1>
+                        <h1 class="text-uppercase text-white font-weight-bold">{{ content_poster.title }}</h1>
                         <hr class="divider my-4" />
                     </div>
                     <div class="col-lg-8 align-self-baseline">
-                        <p class="text-white-75 font-weight-light mb-5">
-                            Envie de changement ou de renouveaux.
-                            Bienvenue chez BROC EN SCÈNE.
-                            Amoureuse de vieilles patines, je sélectionne pour vous des objets et mobiliers anciens.</p>
-                        <a class="btn btn-dark btn-xl js-scroll-trigger" href="#about">DÉCOUVRIR</a>
+                        <p class="text-white-75 mb-5 font-weight-bold">{{ content_poster.description|nl2br }}</p>
+                        {% if app.user %}
+                            <a class="btn btn-danger btn-xl js-scroll-trigger mt-3 mr-3 ml-3" href="{{ path('index_edit_text' , {'content': content_poster.id} ) }}">Modifier le texte</a>
+                            <a class="btn btn-danger btn-xl js-scroll-trigger mt-3 mr-3 ml-3" href="{{ path('index_edit_poster' , {'content': content_poster.id} ) }}">Modifier le poster</a>
+                        {% else %}
+                            <a class="btn btn-dark btn-xl js-scroll-trigger" href="#about">DÉCOUVRIR</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
+        {% else %}
+            {% if app.user %}
+                <header class="masthead bg-dark">
+                    <div class="container h-100">
+                        <div class="row h-100 align-items-center justify-content-center text-center">
+                            <a class="btn btn-success btn-xl js-scroll-trigger" href="{{ path('index_new_poster') }}">Ajouter un poster</a>
+                        </div>
+                    </div>
+                </header>
+            {% endif %}
+        {% endif %}
         </header>
         <!-- About-->
         <section class="page-section bg-dark" id="about">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8 text-center">
-                        <h2 class="text-white mt-0">Nous avons ce dont vous avez besoin!</h2>
+                    {% if content_flash is not empty %}
+                        <h2 class="text-white-75 mt-0">{{ content_flash.title|nl2br }}</h2>
                         <hr class="divider light my-4" />
-                        <p class="text-white-50 mb-4">Start Bootstrap a tout ce dont vous avez besoin pour que votre nouveau site Web soit opérationnel en un rien de temps! Choisissez l'un de nos thèmes open source, gratuits à télécharger et faciles à utiliser! Sans attaches!</p>
-                        <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Commencer!</a>
+                        <p class="text-white-75 mb-4 font-weight-bolder">{{ content_flash.description|nl2br }}</p>
+                        {% if app.user %}
+                            <a class="btn btn-danger btn-xl js-scroll-trigger" href="{{ path('index_new_flash') }}">Modifier le contenu</a>
+                        {% else %}
+                            <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Commencer!</a>
+                        {% endif %}
+                    {% else %}
+                        {% if app.user %}
+                            <a class="btn btn-success btn-xl js-scroll-trigger" href="{{ path('index_new_flash') }}">Ajouter un message</a>
+                        {% endif %}
+                    {% endif %}
                     </div>
                 </div>
             </div>
@@ -72,82 +96,65 @@
             </div>
         </section>
         <!-- Portfolio-->
+
         <section class="page-section bg-dark" id="portfolio">
             <div>
                 <h2 class="text-white text-center">Nos clients nous font confiance!</h2>
                 <hr class="divider light my-4" />
                 <div class="container-fluid p-0">
                     <div class="row no-gutters">
+                        {% for content in content_projects %}
                         <div class="col-lg-4 col-sm-6">
-                            <a class="portfolio-box" href="{{ asset('/img/portfolio/fullsize/bg-1.jpg') }}">
-                                <img class="img-fluid" style="width: 650px; height: 350px;" src="{{ asset('/img/portfolio/thumbnails/bg-2.jpg') }}" alt="" />
+                            <a class="portfolio-box" href="{{ asset('uploads/img/' ~ content.poster.slug) }}">
+                                <img class="img-fluid" style="width: 650px; height: 350px;" src="{{ asset('uploads/img/' ~ content.poster.slug) }}" alt="project{{ content.id }}" />
                                 <div class="portfolio-box-caption">
-                                    <div class="project-category text-white-75">Garde manger baroque</div>
-                                    <div class="project-name">Meuble renové entierement et vendu à Amelie Trouvart. Un grand merci pour sa confiance</div>
+                                    <div class="project-category text-white-75">{{ content.title }}</div>
+                                    <div class="project-name">{{ content.description }}</div>
                                 </div>
                             </a>
                         </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <a class="portfolio-box" href="{{ asset('/img/portfolio/fullsize/2.jpg') }}">
-                                <img class="img-fluid" style="width: 650px; height: 350px;" src="{{ asset('/img/portfolio/thumbnails/2.jpg') }}" alt="" />
-                                <div class="portfolio-box-caption">
-                                    <div class="project-category text-white-75">Category</div>
-                                    <div class="project-name">Project Name</div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <a class="portfolio-box" href="{{ asset('/img/portfolio/fullsize/3.jpg') }}">
-                                <img class="img-fluid" style="width: 650px; height: 350px;" src="{{ asset('/img/portfolio/thumbnails/3.jpg') }}" alt="" />
-                                <div class="portfolio-box-caption">
-                                    <div class="project-category text-white-75">Category</div>
-                                    <div class="project-name">Project Name</div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <a class="portfolio-box" href="{{ asset('/img/portfolio/fullsize/4.jpg') }}">
-                                <img class="img-fluid" style="width: 650px; height: 350px;" src="{{ asset('/img/portfolio/thumbnails/4.jpg') }}" alt="" />
-                                <div class="portfolio-box-caption">
-                                    <div class="project-category text-white-75">Category</div>
-                                    <div class="project-name">Project Name</div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <a class="portfolio-box" href="{{ asset('/img/portfolio/fullsize/5.jpg') }}">
-                                <img class="img-fluid" style="width: 650px; height: 350px;" src="{{ asset('/img/portfolio/thumbnails/5.jpg') }}" alt="" />
-                                <div class="portfolio-box-caption">
-                                    <div class="project-category text-white-75">Category</div>
-                                    <div class="project-name">Project Name</div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <a class="portfolio-box" href="{{ asset('/img/portfolio/fullsize/6.jpg') }}">
-                                <img class="img-fluid" style="width: 650px; height: 350px;" src="{{ asset('/img/portfolio/thumbnails/6.jpg') }}" alt="" />
-                                <div class="portfolio-box-caption p-3">
-                                    <div class="project-category text-white-75">Category</div>
-                                    <div class="project-name">Project Name</div>
-                                </div>
-                            </a>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </section>
-        <!-- Call to action-->
+        {% if app.user and content_projects|length < 6 %}
+            <section class="d-flex justify-content-center align-items-center bg-dark pb-5">
+                <a class="btn btn-success btn-xl js-scroll-trigger mb-5" href="{{ path('index_new_project') }}">Ajouter un projet</a>
+            </section>
+        {% endif %}
+        {% if app.user %}
+        <section class="container d-flex justify-content-center align-items-center flex-column">
+            {% for content in content_projects %}
+                {% if loop.index > 1 %}
+                <strong>__________</strong>
+                {% endif %}
+                <h3 class="mt-3">Projet {{ loop.index }}</h3>
+                <div class="d-flex justify-content-center flex-wrap">
+                    <a class="btn btn-danger btn-xl js-scroll-trigger mb-3 mt-3 mr-3 ml-3 pl-4 pr-4" href="{{ path('index_edit_project' , {'content': content.id} ) }}">Modifier le texte</a>
+                    <a class="btn btn-danger btn-xl js-scroll-trigger mb-3 mt-3 mr-3 ml-3 pl-3 pr-3" href="{{ path('index_edit_poster' , {'content': content.id} ) }}">Modifier le poster</a>
+                    <form method="post" action="{{ path('content_delete', {'id': content.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément?');">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ content.id) }}">
+                        <button class="btn btn-danger btn-xl js-scroll-trigger mb-3 mt-3 mr-3 ml-3  pl-5 pr-5">Supprimer</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </section>
+        {% endif %}
+        <!-- Instagram followers-->
+        {% if not app.user %}
         <section class="page-section bg-dark text-white" style="padding-top: 0">
             <div class="container text-center">
-                <a class="text-decoration-none text-white" href="https://www.instagram.com/brocenscene/" target="_blank"><h2 class="d-flex align-items-center justify-content-center">
-                    <i class="fab fa-3x fa-instagram mr-3" style="background: linear-gradient(315deg,#E91E63,#5D02FF); border-radius: 20%;"></i>
-                    Instagram<br>
-                    Suivez nous!
-                </h2></a>
+                <a class="text-decoration-none text-white" href="https://www.instagram.com/brocenscene/" target="_blank">
+                    <h2 class="d-flex align-items-center justify-content-center">
+                        <i class="fab fa-3x fa-instagram mr-3" style="background: linear-gradient(315deg,#E91E63,#5D02FF); border-radius: 20%;"></i>Instagram<br>Suivez nous!
+                    </h2></a>
                 <a class="btn btn-light btn-xl" href="https://www.instagram.com/brocenscene/" target="_blank"><h3>{{ followers.count }} followers</h3></a>
             </div>
         </section>
-
+        {% endif %}
+        <!-- Call to action-->
         {% block footer %}
             {% include 'footer.html.twig' %}
         {% endblock %}

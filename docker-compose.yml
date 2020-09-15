@@ -13,7 +13,7 @@ services:
   webserver:
     image: khaleddwm/brocenscene:v1.0
     ports:
-      - "80:80"
+      - "8055:80"
 
 volumes:
   db_data: {}

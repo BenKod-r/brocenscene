@@ -3,11 +3,14 @@
 {% block title %}New Image{% endblock %}
 
 {% block body %}
-    <body class="container bg-dark text-white mt-5">
-        <h1 class="text-center mb-5">Ajouter des images à<br>{{ product.name }}</h1>
-
-        {{ include('image/_form.html.twig') }}
-
-        <a href="{{ path('image_index') }}">back to list</a>
+    <body class="container bg-dark text-white" style="padding-top: 8rem; min-height: 1000px">
+        <h1 class="text-center mb-5">Ajouter des images<br>{{ product.name }}</h1>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <div class="d-flex justify-content-center row">
+            <button class="btn btn-success btn-xl js-scroll-trigger mt-3 mr-3">{{ button_label|default('Valider') }}</button>
+            <a class="btn btn-light btn-xl js-scroll-trigger mt-3" href="{{ path('shop_actions', {'product': product.id}) }}">Retour</a>
+        </div>
+        {{ form_end(form) }}
     </body>
 {% endblock %}

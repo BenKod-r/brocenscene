@@ -3,7 +3,7 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <body class="container bg-dark text-white mt-5">
+    <body class="container bg-dark text-white" style="padding-top: 8rem; min-height: 1000px">
         {% for flashError in app.flashes('verify_email_error') %}
             <div class="alert alert-danger" role="alert">{{ flashError }}</div>
         {% endfor %}
@@ -17,7 +17,9 @@
             }) }}
             {{ form_row(registrationForm.agreeTerms) }}
 
-            <button type="submit" class="btn btn-outline-light">Register</button>
+            <div class="d-flex justify-content-center row">
+                <button class="btn btn-success btn-xl js-scroll-trigger mt-3" type="submit">Valider</button>
+            </div>
         {{ form_end(registrationForm) }}
     </body>
 {% endblock %}
