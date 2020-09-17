@@ -13,10 +13,13 @@ use App\Entity\Schedule;
 use App\Form\ContentType;
 use App\Form\EditContentType;
 use App\Form\EditPosterType;
+use App\Form\ScheduleType;
 use App\Repository\ContentRepository;
 use App\Repository\ScheduleRepository;
 use App\Service\FileUploader;
+use App\Service\InitializeSchedule;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\CannotWriteFileException;
 use Symfony\Component\HttpFoundation\File\Exception\ExtensionFileException;
@@ -28,7 +31,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use \DateTime;
 
 /**
  * Class ShowroomController
@@ -38,6 +40,7 @@ use \DateTime;
 class ShowroomController extends AbstractController
 {
     /**
+     * Return showroom content on the showroom page
      * @Route("/",name="showroom_index")
      * @param ContentRepository $contentRepository
      * @param ScheduleRepository $scheduleRepository
@@ -52,7 +55,9 @@ class ShowroomController extends AbstractController
     }
 
     /**
+     * Create new showroom on the showroom page
      * @Route("/new/poster", name="showroom_new_poster", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param FileUploader $fileUploader
@@ -104,7 +109,9 @@ class ShowroomController extends AbstractController
     }
 
     /**
+     * Edit poster on the showroom page
      * @Route("/edit/poster/{content}", name="showroom_edit_poster", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param FileUploader $fileUploader
@@ -155,7 +162,9 @@ class ShowroomController extends AbstractController
     }
 
     /**
+     * Edit showroom text on the showroom page
      * @Route("/edit/text/{content}", name="showroom_edit_text", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param Content $content
      * @param EntityManagerInterface $entityManager
@@ -179,30 +188,45 @@ class ShowroomController extends AbstractController
     }
 
     /**
+     * Initialize schedule on the showroom page
      * @Route("/initialize", name="showroom_initialize", methods={"GET", "POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param ScheduleRepository $scheduleRepository
+     * @param InitializeSchedule $schedule
+     * @return Response
+     */
+    public function initializeSchedule(ScheduleRepository $scheduleRepository, InitializeSchedule $schedule): Response
+    {
+        if (!empty($scheduleRepository->findAll())) return $this->redirectToRoute('showroom_index');
+
+        $schedule->initializeSchedule();
+
+        return $this->redirectToRoute('showroom_index');
+    }
+
+    /**
+     * Edit schedule on the showroom page
+     * @Route("/edit/schedule/{schedule}", name="showroom_edit_schedule", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
+     * @param Request $request
+     * @param Schedule $schedule
      * @param EntityManagerInterface $entityManager
      * @return Response
      */
-    public function initializeSchedule(ScheduleRepository $scheduleRepository, EntityManagerInterface $entityManager): Response
+    public function editSchedule(Request $request, Schedule $schedule, EntityManagerInterface $entityManager): Response
     {
-        $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-        if (empty($scheduleRepository->findAll())) {
-            foreach ($days as $day) {
-                $schedule = new Schedule();
-                $schedule->setDay($day);
-                $schedule->setStartMorning(new DateTime('07:30'));
-                $schedule->setEndMorning(new DateTime('12:00'));
-                $schedule->setStartAfternoon(new DateTime('14:30'));
-                $schedule->setEndAfternoon(new DateTime('18:30'));
-                $schedule->setOpen('Ouvert');
+        $form = $this->createForm(ScheduleType::class, $schedule);
+        $form->handleRequest($request);
 
-                $entityManager->persist($schedule);
-            }
-
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+
+            return $this->redirectToRoute('showroom_index');
         }
 
-        return $this->redirectToRoute('showroom_index');
+        return $this->render('showroom/edit_schedule.html.twig', [
+            'schedule' => $schedule,
+            'form' => $form->createView(),
+        ]);
     }
 }

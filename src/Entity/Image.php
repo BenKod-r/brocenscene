@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use \DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
@@ -21,6 +22,8 @@ class Image
     private $id;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Length(min="3")
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -36,11 +39,13 @@ class Image
     private $iproduct;
 
     /**
+     * @Assert\DateTime
      * @ORM\Column(type="datetime")
      */
     private $creationDate;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $slug;

@@ -62,34 +62,30 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-6 text-center">
                         <div class="mt-5">
-                            <i class="fas fa-4x fa-gem text-dark mb-4"></i>
+                            <i class="fas fa-4x fa-hand-holding-heart mb-4"></i>
+                            <h3 class="h4 mb-2">Accompagnement</h3>
+                            <p class="text-muted mb-0">Nous vous accompagnons, et vous conseillons tout au long de notre histoire !</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 text-center">
+                        <div class="mt-5">
                             <i class="fas fa-4x fa-couch text-dark mb-4"></i>
-                            <h3 class="h4 mb-2">Thèmes robustes</h3>
-                            <p class="text-muted mb-0">Nos thèmes sont mis à jour régulièrement pour les garder sans bogue!</p>
+                            <h3 class="h4 mb-2">Découverte</h3>
+                            <p class="text-muted mb-0">Nous partageons avec vous le bonheur de chaque nouvelle découverte !</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 text-center">
                         <div class="mt-5">
-                            <i class="fas fa-4x fa-laptop-code text-dark mb-4"></i>
-                            <i class="fas fa-4x fa-chair text-dark mb-4"></i>
-                            <h3 class="h4 mb-2">À jour</h3>
-                            <p class="text-muted mb-0">Toutes les dépendances sont tenues à jour pour garder les choses fraîches.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 text-center">
-                        <div class="mt-5">
-                            <i class="fas fa-4x fa-globe text-dark mb-4"></i>
-                            <i class="fas fa-4x fa-gifts text-dark  mb-4"></i>
-                            <h3 class="h4 mb-2">Prêt à publier</h3>
-                            <p class="text-muted mb-0">Vous pouvez utiliser cette conception telle quelle ou apporter des modifications!</p>
+                            <i class="fas fa-4x fa-globe-europe mb-4"></i>
+                            <h3 class="h4 mb-2">Mobilité</h3>
+                            <p class="text-muted mb-0">Si le monde est si petit, c'est qu'il y a toujours quelque chose qui peut nous rapprocher !</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 text-center">
                         <div class="mt-5">
                             <i class="fas fa-4x fa-heart text-dark mb-4"></i>
-                            <i class="fas fa-4x fa fa-comments text-dark mb-4"></i>
                             <h3 class="h4 mb-2">Fait avec amour</h3>
-                            <p class="text-muted mb-0">Est-ce vraiment open source si ce n'est pas fait avec amour?</p>
+                            <p class="text-muted mb-0">Chinée est une vraie passion, et c'est avec vous que nous la partageons.</p>
                         </div>
                     </div>
                 </div>
@@ -105,8 +101,8 @@
                     <div class="row no-gutters">
                         {% for content in content_projects %}
                         <div class="col-lg-4 col-sm-6">
-                            <a class="portfolio-box" href="{{ asset('uploads/img/' ~ content.poster.slug) }}">
-                                <img class="img-fluid" style="width: 650px; height: 350px;" src="{{ asset('uploads/img/' ~ content.poster.slug) }}" alt="project{{ content.id }}" />
+                            <a class="portfolio-box" href="{{ asset('uploads/img/' ~ content.poster.slug) }}" alt="meuble">
+                                <img class="img-fluid" style="width: 650px; height: 350px;" src="{{ asset('uploads/img/' ~ content.poster.slug) }}" alt="broc-en-scene" />
                                 <div class="portfolio-box-caption">
                                     <div class="project-category text-white-75">{{ content.title }}</div>
                                     <div class="project-name">{{ content.description }}</div>
@@ -133,7 +129,7 @@
                 <div class="d-flex justify-content-center flex-wrap">
                     <a class="btn btn-danger btn-xl js-scroll-trigger mb-3 mt-3 mr-3 ml-3 pl-4 pr-4" href="{{ path('index_edit_project' , {'content': content.id} ) }}">Modifier le texte</a>
                     <a class="btn btn-danger btn-xl js-scroll-trigger mb-3 mt-3 mr-3 ml-3 pl-3 pr-3" href="{{ path('index_edit_poster' , {'content': content.id} ) }}">Modifier le poster</a>
-                    <form method="post" action="{{ path('content_delete', {'id': content.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément?');">
+                    <form method="post" action="{{ path('index_delete', {'content': content.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément?');">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ content.id) }}">
                         <button class="btn btn-danger btn-xl js-scroll-trigger mb-3 mt-3 mr-3 ml-3  pl-5 pr-5">Supprimer</button>
@@ -146,11 +142,21 @@
         {% if not app.user %}
         <section class="page-section bg-dark text-white" style="padding-top: 0">
             <div class="container text-center">
+            {% if followers.count is not empty %}
                 <a class="text-decoration-none text-white" href="https://www.instagram.com/brocenscene/" target="_blank">
                     <h2 class="d-flex align-items-center justify-content-center">
                         <i class="fab fa-3x fa-instagram mr-3" style="background: linear-gradient(315deg,#E91E63,#5D02FF); border-radius: 20%;"></i>Instagram<br>Suivez nous!
-                    </h2></a>
+                    </h2>
+                </a>
                 <a class="btn btn-light btn-xl" href="https://www.instagram.com/brocenscene/" target="_blank"><h3>{{ followers.count }} followers</h3></a>
+            {% else %}
+                <a class="text-decoration-none text-white" href="https://www.instagram.com/brocenscene/" target="_blank">
+                    <h2 class="d-flex align-items-center justify-content-center">
+                        <i class="fab fa-3x fa-instagram mr-3" style="background: linear-gradient(315deg,#E91E63,#5D02FF); border-radius: 20%;"></i>Instagram
+                    </h2>
+                </a>
+                <a class="btn btn-light btn-xl" href="https://www.instagram.com/brocenscene/" target="_blank"><h3>Suivez nous!</h3></a>
+            {% endif %}
             </div>
         </section>
         {% endif %}

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ScheduleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ScheduleRepository::class)
@@ -18,34 +19,46 @@ class Schedule
     private $id;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $day;
 
     /**
+     * @Assert\Time
      * @ORM\Column(type="time")
      */
     private $startMorning;
 
     /**
+     * @Assert\Time
      * @ORM\Column(type="time")
      */
     private $endMorning;
 
     /**
+     * @Assert\Time
      * @ORM\Column(type="time")
      */
     private $startAfternoon;
 
     /**
+     * @Assert\Time
      * @ORM\Column(type="time")
      */
     private $endAfternoon;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
-    private $open;
+    private $opening;
+
+    /**
+     * @Assert\NotBlank
+     * @ORM\Column(type="string", length=255)
+     */
+    private $meet;
 
     public function getId(): ?int
     {
@@ -112,14 +125,26 @@ class Schedule
         return $this;
     }
 
-    public function getOpen(): ?string
+    public function getOpening(): ?string
     {
-        return $this->open;
+        return $this->opening;
     }
 
-    public function setOpen(string $open): self
+    public function setOpening(string $opening): self
     {
-        $this->open = $open;
+        $this->opening = $opening;
+
+        return $this;
+    }
+
+    public function getMeet(): ?string
+    {
+        return $this->meet;
+    }
+
+    public function setMeet(string $meet): self
+    {
+        $this->meet = $meet;
 
         return $this;
     }

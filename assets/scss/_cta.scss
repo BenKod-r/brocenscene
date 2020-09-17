@@ -1,9 +1,8 @@
 .cta {
   padding-top: 5rem;
-  padding-bottom: 5rem;
   .cta-inner {
     position: relative;
-    padding: 3rem;
+    padding: 3rem 1rem;
     margin: 0.5rem;
     background-color: fade-out(white, 0.15);
     &:before {

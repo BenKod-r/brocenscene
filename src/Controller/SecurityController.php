@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,15 +11,17 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
+     * Connect admin on the login page
      * @Route("/login", name="app_login")
      * @param AuthenticationUtils $authenticationUtils
+     * @param UserRepository $userRepository
      * @return Response
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, UserRepository $userRepository): Response
     {
-        if ($this->getUser()) {
-            return $this->redirectToRoute('home_index');
-        }
+        if ($this->getUser()) return $this->redirectToRoute('home_index');
+
+        if (empty($userRepository->findAll())) return $this->redirectToRoute('app_register');
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -29,6 +32,7 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * Disconnect admin on the logout page
      * @Route("/logout", name="app_logout")
      */
     public function logout()

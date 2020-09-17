@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
     {% block body %}
 
-        <section  class="bg-dark pb-5" style="padding-top: 8rem">
+        <section class="bg-dark pb-5" style="padding-top: 8rem">
             <div class="container">
                 <div class="link-shop d-flex justify-content-end pb-5">
                     <a class="text-white fa-2x" href="{{ path('shop_deco') }}">Décorations</a><i class="fas fa-angle-double-right fa-3x text-danger"></i>
@@ -35,9 +35,9 @@
                             {% for image in product.image %}
                                 <div class="carousel-item">
                                 {% if product.status == true %}
-                                    <img class="product-item-img mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="{{ asset('uploads/img/' ~ image.slug) }}" alt="">
+                                    <img class="product-item-img mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="{{ asset('uploads/img/' ~ image.slug) }}" alt="brocante">
                                 {% else %}
-                                    <img class="product-item-img mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="{{ asset('uploads/img/' ~ image.slug) }}" alt=""  style="filter: grayscale(100%) blur(3px);">
+                                    <img class="product-item-img mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="{{ asset('uploads/img/' ~ image.slug) }}" alt="brocenscene"  style="filter: grayscale(100%) blur(3px);">
                                 {% endif %}
                                 </div>
                             {% endfor %}
@@ -71,7 +71,7 @@
                                         <a class="btn btn-danger btn-xl js-scroll-trigger mb-3 mt-3 mr-3 ml-3" href="{{ path('shop_adopt', {"product" : product.id}) }}">Disponible</a>
                                     {% endif %}
                                     <a class="btn btn-danger btn-xl js-scroll-trigger mb-3 mt-3 mr-3 ml-3" href="{{ path('shop_actions', {"product": product.id}) }}">Modifier</a>
-                                    <form method="post" action="{{ path('product_delete', {'id': product.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément?');">
+                                    <form method="post" action="{{ path('product_delete', {'product': product.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément?');">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
                                         <button class="btn btn-danger btn-xl js-scroll-trigger mb-3 mt-3 mr-3 ml-3">Supprimer</button>

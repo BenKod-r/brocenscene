@@ -17,6 +17,7 @@ use App\Form\ContentType;
 use App\Repository\ContentRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\CannotWriteFileException;
 use Symfony\Component\HttpFoundation\File\Exception\ExtensionFileException;
@@ -33,7 +34,8 @@ class IndexController extends AbstractController
 {
     /**
      * Home page display
-     * Return the coach members
+     * Return content for home page and
+     * Return the follower's instagram for brocenscene account
      * @Route("/",name="home_index")
      * @param ContentRepository $contentRepository
      * @return Response
@@ -45,15 +47,17 @@ class IndexController extends AbstractController
         $followers = $data["graphql"]["user"]["edge_followed_by"];
 
         return $this->render('index.html.twig', [
-            'content_flash' => $contentRepository->findOneBy(['category' => 'flash']),
             'content_poster' => $contentRepository->findOneBy(['category' => 'index']),
-            'content_projects' => $contentRepository->findBy(['category' => 'project'], ['creationDate' => 'DESC']),
+            'content_flash' => $contentRepository->findOneBy(['category' => 'flash']),
+            'content_projects' => $contentRepository->findBy(['category' => 'project'], ['creationDate' => 'DESC'], 6),
             'followers' => $followers,
             ]);
     }
 
     /**
+     * Create or edit flash content on the home page
      * @Route("/new/index/flash", name="index_new_flash", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param ContentRepository $contentRepository
      * @param EntityManagerInterface $entityManager
@@ -81,7 +85,9 @@ class IndexController extends AbstractController
     }
 
     /**
+     * Create new poster on the home page
      * @Route("/new/index/poster", name="index_new_poster", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param FileUploader $fileUploader
@@ -134,7 +140,9 @@ class IndexController extends AbstractController
     }
 
     /**
+     * Edit flash text on the page
      * @Route("edit/index/text/{content}", name="index_edit_text", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param Content $content
      * @param EntityManagerInterface $entityManager
@@ -158,7 +166,9 @@ class IndexController extends AbstractController
     }
 
     /**
+     * Edit poster on the home page
      * @Route("/edit/index/poster/{content}", name="index_edit_poster", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param FileUploader $fileUploader
@@ -209,7 +219,9 @@ class IndexController extends AbstractController
     }
 
     /**
+     * Create project on the home page
      * @Route("/new/index/project", name="index_new_project", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param FileUploader $fileUploader
@@ -260,7 +272,9 @@ class IndexController extends AbstractController
     }
 
     /**
+     * Edit text for one project on the home page
      * @Route("edit/index/project/{content}", name="index_edit_project", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param Content $content
      * @param EntityManagerInterface $entityManager
@@ -284,14 +298,17 @@ class IndexController extends AbstractController
     }
 
     /**
+     * Delete content on the home page
+     * Delete image in relation to content on the home page
      * @Route("/delete/index/{content}", name="index_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param Content $content
      * @param EntityManagerInterface $entityManager
      * @return Response
      * @noinspection DuplicatedCode
      */
-    public function delete(Request $request, Content $content,EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Content $content, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$content->getId(), $request->request->get('_token'))) {
             if (!empty($content->getPoster())) {

@@ -71,7 +71,7 @@
                                         <a class="btn btn-danger btn-xl js-scroll-trigger mb-3 mt-3 mr-3 ml-3" href="{{ path('shop_adopt', {"product" : product.id}) }}">Disponible</a>
                                     {% endif %}
                                     <a class="btn btn-danger btn-xl js-scroll-trigger mb-3 mt-3 mr-3 ml-3" href="{{ path('shop_actions', {"product": product.id}) }}">Modifier</a>
-                                    <form method="post" action="{{ path('product_delete', {'id': product.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément?');">
+                                    <form method="post" action="{{ path('product_delete', {'product': product.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément?');">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
                                         <button class="btn btn-danger btn-xl js-scroll-trigger mb-3 mt-3 mr-3 ml-3">Supprimer</button>

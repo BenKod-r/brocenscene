@@ -32,7 +32,7 @@ class FileUploader
      * @param string|null $fileName
      * @return string
      */
-    public function upload(UploadedFile $file, ?string $fileName) :string
+    public function upload(UploadedFile $file, ?string $fileName): string
     {
         // initialize number file
         $fileNumber = 1;

@@ -16,6 +16,7 @@ use App\Form\UpdateProductType;
 use App\Repository\ProductRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\CannotWriteFileException;
 use Symfony\Component\HttpFoundation\File\Exception\ExtensionFileException;
@@ -36,7 +37,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ShopController extends AbstractController
 {
     /**
-     * @Route("/",name="shop_index")
+     * Return furnitures on the shop page
+     * @Route("/furnitures",name="shop_index")
      * @param ProductRepository $productRepository
      * @return Response
      */
@@ -48,7 +50,8 @@ class ShopController extends AbstractController
     }
 
     /**
-     * @Route("/deco",name="shop_deco")
+     * Return decorations on the shop_deco page
+     * @Route("/decorations",name="shop_deco")
      * @param ProductRepository $productRepository
      * @return Response
      */
@@ -60,7 +63,9 @@ class ShopController extends AbstractController
     }
 
     /**
+     * Create new product on the shop page
      * @Route("/product/new", name="product_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param FileUploader $fileUploader
@@ -97,8 +102,11 @@ class ShopController extends AbstractController
 
             $product->setPoster($image);
             $entityManager->persist($product);
+
             $entityManager->flush();
-            return $this->redirectToRoute('shop_index');
+
+            if ($product->getCategory() === 'Meuble') return $this->redirectToRoute('shop_index');
+            else return $this->redirectToRoute('shop_deco');
         }
 
         return $this->render('shop/new.html.twig', [
@@ -108,7 +116,9 @@ class ShopController extends AbstractController
     }
 
     /**
+     * Adopt product on the shop page
      * @Route("/adopt/{product}", name="shop_adopt")
+     * @IsGranted("ROLE_ADMIN")
      * @param Product $product
      * @param EntityManagerInterface $entityManager
      * @return Response
@@ -125,11 +135,13 @@ class ShopController extends AbstractController
     }
 
     /**
-     * @Route("/action/{product}", name="shop_actions")
+     * Return product for choice one action (add, edit, ...) on the actions page
+     * @Route("/actions/{product}", name="shop_actions")
+     * @IsGranted("ROLE_ADMIN")
      * @param Product $product
      * @return Response
      */
-    public function action(Product $product): Response
+    public function actions(Product $product): Response
     {
         return $this->render('shop/actions.html.twig', [
             'product' => $product
@@ -137,7 +149,9 @@ class ShopController extends AbstractController
     }
 
     /**
+     * Add image in product on the shop actions page
      * @Route("/image/{product}/new", name="product_new_image", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param FileUploader $fileUploader
@@ -178,7 +192,9 @@ class ShopController extends AbstractController
             }
 
             $entityManager->flush();
-            return $this->redirectToRoute('shop_index');
+
+            if ($product->getCategory() === 'Meuble') return $this->redirectToRoute('shop_index');
+            else return $this->redirectToRoute('shop_deco');
         }
 
         return $this->render('shop/image.html.twig', [
@@ -188,7 +204,9 @@ class ShopController extends AbstractController
     }
 
     /**
+     * Edit product on the shop page
      * @Route("/product/{product}/edit", name="product_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param Product $product
      * @param EntityManagerInterface $entityManager
@@ -202,7 +220,8 @@ class ShopController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('shop_index');
+            if ($product->getCategory() === 'Meuble') return $this->redirectToRoute('shop_index');
+            else return $this->redirectToRoute('shop_deco');
         }
 
         return $this->render('shop/edit.html.twig', [
@@ -212,7 +231,11 @@ class ShopController extends AbstractController
     }
 
     /**
-     * @Route("/product/{id}", name="product_delete", methods={"DELETE"})
+     * Delete product on the home page
+     * Delete poster in relation to product on the home page
+     * Delete image in relation to product on the home page
+     * @Route("/product/{product}", name="product_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param Product $product
      * @param EntityManagerInterface $entityManager
@@ -241,6 +264,7 @@ class ShopController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('shop_index');
+        if ($product->getCategory() === 'Meuble') return $this->redirectToRoute('shop_index');
+        else return $this->redirectToRoute('shop_deco');
     }
 }

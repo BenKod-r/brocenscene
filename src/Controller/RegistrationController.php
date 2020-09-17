@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Form\RegistrationFormType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,13 +19,15 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class RegistrationController extends AbstractController
 {
     /**
+     * Create new admin on the register page
      * @Route("/register", name="app_register")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param UserRepository $userRepository
+     * @param EntityManagerInterface $entityManager
      * @return Response
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         if (!empty($userRepository->findAll())) return $this->redirectToRoute('home_index');
 
@@ -41,9 +44,10 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $entityManager = $this->getDoctrine()->getManager();
+            $user->setRoles(["ROLE_ADMIN"]);
             $entityManager->persist($user);
             $entityManager->flush();
+            $this->addFlash('success', 'Bonjour Nadia. Votre compte à bien été enregistré !!! Veuillez maintenant vous connecter');
             // do anything else you need here, like send an email
 
             return $this->redirectToRoute('app_login');

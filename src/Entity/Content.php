@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ContentRepository;
 use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ContentRepository::class)
@@ -19,11 +20,15 @@ class Content
     private $id;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Length(min=3)
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Length(min=10)
      * @ORM\Column(type="text")
      */
     private $description;
@@ -39,6 +44,7 @@ class Content
     private $poster;
 
     /**
+     * @Assert\DateTime
      * @ORM\Column(type="datetime")
      */
     private $creationDate;

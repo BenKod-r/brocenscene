@@ -16,16 +16,24 @@ class UpdateProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class)
-            ->add('description', TextareaType::class)
+            ->add('name', TextType::class, [
+                'label' => 'Nom du produit'
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'Résumé, description, texte...'
+            ])
             ->add('category', ChoiceType::class, [
+                'label' => 'Categorie',
                 'choices' => [
                     'Meuble' => 'Meuble',
                     'Décoration' => 'Deco',
                 ],
             ])
-            ->add('price', IntegerType::class)
+            ->add('price', IntegerType::class, [
+                'label' => 'Prix en euros'
+            ])
             ->add('status', ChoiceType::class, [
+                'label' => 'Disponibilté',
                 'choices' => [
                     'Disponible' => true,
                     'Vendu' => false,

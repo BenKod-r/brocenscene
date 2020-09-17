@@ -1,7 +1,8 @@
 {% extends 'base.html.twig'%}
+
 {% block body %}
 
-    <section class="page-section about-heading bg-dark">
+    <section class="page-section about-heading bg-dark" >
       <h1 class="broc text-center text-white">Showroom</h1>
       <div class="container">
         <img class="img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{ asset('uploads/img/' ~ content_showroom.poster.slug ) }}" alt="showroom">
@@ -32,12 +33,10 @@
             </div>
           </div>
         </div>
-
       </div>
-
     </section>
 
-    <section class="page-section cta">
+    <section class="cta" style="padding-top: 8rem">
       <div class="container">
         <div class="row">
           <div class="col-xl-9 mx-auto">
@@ -52,36 +51,83 @@
                   </div>
                 {% else %}
                   {% for schedule in schedules %}
-                    <li class="list-unstyled-item list-hours-item d-flex flex-column">
-                      <span class="d-flex justify-content-center">{{ schedule.day }}</span>
-                      {% if schedule.open == 'Fermé' %}
-                        <span class="ml-auto">Fermé</span>
+                      {% if schedule.opening == 'Open' and schedule.meet == 'Not meet' %}
+                          <li class="list-unstyled-item list-hours-item d-flex flex-column">
+                              <span class="d-flex justify-content-center">{{ schedule.day }}</span><br>
+                              <span class="d-flex justify-content-center">
+                                  {{ schedule.startMorning|date('H\\hi') }}-{{ schedule.endMorning|date('H\\hi') }} | {{ schedule.startAfternoon|date('H\\hi') }}-{{ schedule.endAfternoon|date('H\\hi') }}
+                              </span>
+                      {% elseif schedule.opening == 'Close' and schedule.meet == 'Not meet' %}
+                          <li class="list-unstyled-item list-hours-item">
+                              <div class="d-flex">
+                                  {{ schedule.day }}
+                                  <span class="ml-auto">Fermé</span>
+                              </div>
+                      {% elseif schedule.opening == 'Open' and schedule.meet  == 'Meet' or schedule.opening == 'Close' and schedule.meet == 'Meet'%}
+                          <li class="list-unstyled-item list-hours-item">
+                              <div class="d-flex">
+                                  {{ schedule.day }}
+                                  <span class="ml-auto">Sur rendez-vous</span>
+                              </div>
+                      {% elseif schedule.opening == 'Open' and schedule.meet == 'Meet AM' or schedule.opening == 'Open PM' and schedule.meet == 'Meet AM' %}
+                          <li class="list-unstyled-item list-hours-item d-flex flex-column">
+                              <span class="d-flex justify-content-center">{{ schedule.day }}</span><br>
+                              <span class="d-flex justify-content-center">
+                                      Matin ur rdv | {{ schedule.startAfternoon|date('H\\hi') }}-{{ schedule.endAfternoon|date('H\\hi') }}
+                              </span>
+                      {% elseif schedule.opening == 'Open' and schedule.meet == 'Meet PM' or schedule.opening == 'Open AM' and schedule.meet == 'Meet PM' %}
+                          <li class="list-unstyled-item list-hours-item d-flex flex-column">
+                              <span class="d-flex justify-content-center">{{ schedule.day }}</span><br>
+                              <span class="d-flex justify-content-center">
+                                  {{ schedule.startMorning|date('H\\hi') }}-{{ schedule.endMorning|date('H\\hi') }} | Après-midi sur rdv
+                              </span>
+                      {% elseif schedule.opening == 'Open AM' and schedule.meet == 'Meet AM' or schedule.opening == 'Close' and schedule.meet == 'Meet AM'%}
+                          <li class="list-unstyled-item list-hours-item d-flex flex-column">
+                              <span class="d-flex justify-content-center">{{ schedule.day }}</span><br>
+                              <span class="d-flex justify-content-center">
+                                  Matin sur rdv | Après-midi fermé
+                              </span>
+                      {% elseif schedule.opening == 'Open PM' and schedule.meet == 'Meet PM' or schedule.opening == 'Close' and schedule.meet == 'Meet PM'%}
+                          <li class="list-unstyled-item list-hours-item d-flex flex-column">
+                              <span class="d-flex justify-content-center">{{ schedule.day }}</span><br>
+                              <span class="d-flex justify-content-center">
+                                  Matin fermé | Après-midi sur rdv
+                              </span>
+                      {% elseif schedule.opening == 'Open AM' and schedule.meet == 'Not meet'%}
+                          <li class="list-unstyled-item list-hours-item d-flex flex-column">
+                              <span class="d-flex justify-content-center">{{ schedule.day }}</span><br>
+                              <span class="d-flex justify-content-center">
+                                  {{ schedule.startMorning|date('H\\hi') }}-{{ schedule.endMorning|date('H\\hi') }} | Après-midi fermé
+                              </span>
+                      {% elseif schedule.opening == 'Open PM' and schedule.meet == 'Not meet'%}
+                          <li class="list-unstyled-item list-hours-item d-flex flex-column">
+                              <span class="d-flex justify-content-center">{{ schedule.day }}</span><br>
+                              <span class="d-flex justify-content-center">
+                                  Matin fermé | {{ schedule.startAfternoon|date('H\\hi') }}-{{ schedule.endAfternoon|date('H\\hi') }}
+                              </span>
                       {% else %}
-                        <span class="d-flex justify-content-center">
-                          {{ schedule.startMorning|date('H\\hi') }}-{{ schedule.endMorning|date('H\\hi') }} | {{ schedule.startAfternoon|date('H\\hi') }}-{{ schedule.endAfternoon|date('H\\hi') }}
-                        </span>
+                          <li class="list-unstyled-item list-hours-item text-danger">
+                              <div class="d-flex">
+                                  {{ schedule.day }}
+                                  <span class="ml-auto">Mettre à jour</span>
+                              </div>
                       {% endif %}
-                      <div class="container d-flex justify-content-center align-items-center">
-                        <a class="btn btn-success btn-xl js-scroll-trigger mt-3 mb-3" href="{{ path('showroom_initialize') }}">Initialiser les horaires</a>
-                      </div>
-                    </li>
+                      {% if app.user %}
+                          <div class="container d-flex justify-content-center align-items-center">
+                            <a class="btn btn-danger btn-xl js-scroll-trigger mt-3 mb-3" href="{{ path('showroom_edit_schedule', {'schedule': schedule.id}) }}">Modifier</a>
+                          </div>
+                      {% endif %}
+                      </li>
                   {% endfor %}
                 {% endif %}
               </ul>
               <p class="address mb-5">
-                <em>
-                  <strong>1116 Orchard Street</strong>
-                  <br>
-                  Golden Valley, Minnesota
-                </em>
-              </p>
-              <p class="mb-0">
-                <small>
-                  <em>Call Anytime</em>
-                </small>
-                <br>
-                (317) 585-8468
-              </p>
+                  <strong>Adresse</strong><br>
+                  <a href="https://goo.gl/maps/ifC58pwEBLnVMjYc6" target="_blank">
+                      <strong>124, rue Nationale</strong><br>
+                        37250 Montbazon<br>
+                  </a>
+                  <h1 class="address"><strong>On vous attend !</strong></h1>
             </div>
           </div>
         </div>
@@ -89,11 +135,11 @@
     </section>
 
     {% block footer %}
-      {% include 'footer.html.twig' %}
+        {% include 'footer.html.twig' %}
     {% endblock %}
 
 {% endblock %}
-  {% block javascripts %}
+{% block javascripts %}
   {{ parent() }}
   <script src="{{ asset('js/base.js') }}"></script>
-  {% endblock %}
+{% endblock %}
