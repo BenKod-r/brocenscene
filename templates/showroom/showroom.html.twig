@@ -3,39 +3,39 @@
 {% block body %}
 
     <section class="page-section about-heading bg-dark" >
-      <h1 class="broc text-center text-white">Showroom</h1>
-      <div class="container">
-          {% if content_showroom is not empty %}
-        <img class="img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{ asset('uploads/img/' ~ content_showroom.poster.slug ) }}" alt="showroom">
-        <div class="about-heading-content">
-          <div class="row">
-            <div class="col-xl-9 col-lg-10 mx-auto">
-              <div class="bg-faded rounded p-5">
-                <h2 class="section-heading mb-4">
-                  <span class="section-heading-upper text-center">{{ content_showroom.title }}</span>
-                </h2>
-                <p>{{ content_showroom.description|nl2br }}</p>
-                  {% endif %}
-                {% if app.user %}
-                  <section class="d-flex justify-content-center align-items-center flex-column">
-                    {% if content_showroom is not empty %}
-                      <strong>__________</strong>
-                      <div class="d-flex justify-content-center align-items-center flex-wrap">
-                        <a class="btn btn-danger btn-xl js-scroll-trigger mt-5 ml-3 mr-3" href="{{ path('showroom_edit_poster', {'content': content_showroom.id}) }}">Modifier le poster</a>
-                        <a class="btn btn-danger btn-xl js-scroll-trigger mt-5 ml-3 mr-3" href="{{ path('showroom_edit_text', {'content': content_showroom.id}) }}">Modifier le texte</a>
-                      </div>
-                    {% else %}
-                      <div class="container d-flex justify-content-center align-items-center">
-                        <a class="btn btn-success btn-xl js-scroll-trigger mt-5 ml-3 mr-3" href="{{ path('showroom_new_poster') }}">Ajouter un showroom</a>
-                      </div>
-                    {% endif %}
-                  </section>
-                {% endif %}
-              </div>
+        <h1 class="broc text-center text-white">Showroom</h1>
+        <div class="container">
+            {% if content_showroom is not empty %}
+            <img class="img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{ asset('uploads/img/' ~ content_showroom.poster.slug ) }}" alt="showroom">
+            <div class="about-heading-content">
+                <div class="row">
+                    <div class="col-xl-9 col-lg-10 mx-auto">
+                        <div class="bg-faded rounded p-5">
+                            <h2 class="section-heading mb-4">
+                                <span class="section-heading-upper text-center">{{ content_showroom.title }}</span>
+                            </h2>
+                            <p>{{ content_showroom.description|nl2br }}</p>
+                            {% endif %}
+                            {% if app.user %}
+                                <section class="d-flex justify-content-center align-items-center flex-column">
+                                    {% if content_showroom is not empty %}
+                                        <strong>__________</strong>
+                                        <div class="d-flex justify-content-center align-items-center flex-wrap">
+                                            <a class="btn btn-danger btn-xl js-scroll-trigger mt-5 ml-3 mr-3" href="{{ path('showroom_edit_poster', {'content': content_showroom.id}) }}">Modifier le poster</a>
+                                            <a class="btn btn-danger btn-xl js-scroll-trigger mt-5 ml-3 mr-3" href="{{ path('showroom_edit_text', {'content': content_showroom.id}) }}">Modifier le texte</a>
+                                        </div>
+                                    {% else %}
+                                        <div class="container d-flex justify-content-center align-items-center">
+                                            <a class="btn btn-success btn-xl js-scroll-trigger mt-5 ml-3 mr-3" href="{{ path('showroom_new_poster') }}">Ajouter un showroom</a>
+                                        </div>
+                                    {% endif %}
+                                </section>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </section>
 
     <section class="cta" style="padding-top: 8rem">
