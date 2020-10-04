@@ -20,15 +20,11 @@ class Content
     private $id;
 
     /**
-     * @Assert\NotBlank
-     * @Assert\Length(min=3)
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
-     * @Assert\NotBlank
-     * @Assert\Length(min=10)
      * @ORM\Column(type="text")
      */
     private $description;

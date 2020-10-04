@@ -22,7 +22,6 @@ class Image
     private $id;
 
     /**
-     * @Assert\NotBlank
      * @Assert\Length(min="3")
      * @ORM\Column(type="string", length=255)
      */
@@ -45,7 +44,6 @@ class Image
     private $creationDate;
 
     /**
-     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $slug;

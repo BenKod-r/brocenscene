@@ -19,7 +19,6 @@ class Schedule
     private $id;
 
     /**
-     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $day;
@@ -49,13 +48,11 @@ class Schedule
     private $endAfternoon;
 
     /**
-     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $opening;
 
     /**
-     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $meet;

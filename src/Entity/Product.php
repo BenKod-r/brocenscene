@@ -22,21 +22,16 @@ class Product
     private $id;
 
     /**
-     * @Assert\NotBlank
-     * @Assert\Length(min="3")
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
-     * @Assert\NotBlank
-     * @Assert\Length(min="10")
      * @ORM\Column(type="text")
      */
     private $description;
 
     /**
-     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $category;
