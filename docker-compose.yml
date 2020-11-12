@@ -1,0 +1,22 @@
+version: "3"
+services:
+  database:
+    restart: always
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: Wcs.37000
+    expose:
+      - "3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  webserver:
+    image: khaleddwm/brocenscene:v1.1
+    ports:
+      - "80:80"
+    volumes:
+      - web:/var/www/html/public/uploads
+
+volumes:
+  db_data: {}
+  web: {}

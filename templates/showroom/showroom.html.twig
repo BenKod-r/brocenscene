@@ -1,81 +1,135 @@
 {% extends 'base.html.twig'%}
+
 {% block body %}
-  <body id="page-top">
-    {% include 'showroom/nav_showroom.html.twig' %}
-    <section class="page-section about-heading bg-dark">
-      <div class="container">
-        <img class="img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{ asset('img/showroom.jpg') }}" alt="showroom">
-        <div class="about-heading-content">
-          <div class="row">
-            <div class="col-xl-9 col-lg-10 mx-auto">
-              <div class="bg-faded rounded p-5">
-                <h2 class="section-heading mb-4">
-                  <span class="section-heading-upper">Strong Coffee, Strong Roots</span>
-                </h2>
-                <p>Founded in 1987 by the Hernandez brothers, our establishment has been serving up rich coffee sourced from artisan farmers in various regions of South and Central America. We are dedicated to travelling the world, finding the best coffee, and bringing back to you here in our cafe.</p>
-                <p class="mb-0">We guarantee that you will fall in
-                  <em>lust</em>
-                  with our decadent blends the moment you walk inside until you finish your last sip. Join us for your daily routine, an outing with friends, or simply just to enjoy some alone time.</p>
-              </div>
+
+    <section class="page-section about-heading bg-dark" >
+        <h1 class="broc text-center text-white">Showroom</h1>
+        <div class="container">
+            {% if content_showroom is not empty %}
+            <img class="img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{ asset('uploads/img/' ~ content_showroom.poster.slug ) }}" alt="showroom">
+            <div class="about-heading-content">
+                <div class="row">
+                    <div class="col-xl-9 col-lg-10 mx-auto">
+                        <div class="bg-faded rounded p-5">
+                            <h2 class="section-heading mb-4">
+                                <span class="section-heading-upper text-center">{{ content_showroom.title }}</span>
+                            </h2>
+                            <p>{{ content_showroom.description|nl2br }}</p>
+                            {% endif %}
+                            {% if app.user %}
+                                <section class="d-flex justify-content-center align-items-center flex-column">
+                                    {% if content_showroom is not empty %}
+                                        <strong>__________</strong>
+                                        <div class="d-flex justify-content-center align-items-center flex-wrap">
+                                            <a class="btn btn-danger btn-xl js-scroll-trigger mt-5 ml-3 mr-3" href="{{ path('showroom_edit_poster', {'content': content_showroom.id}) }}">Modifier le poster</a>
+                                            <a class="btn btn-danger btn-xl js-scroll-trigger mt-5 ml-3 mr-3" href="{{ path('showroom_edit_text', {'content': content_showroom.id}) }}">Modifier le texte</a>
+                                        </div>
+                                    {% else %}
+                                        <div class="container d-flex justify-content-center align-items-center">
+                                            <a class="btn btn-success btn-xl js-scroll-trigger mt-5 ml-3 mr-3" href="{{ path('showroom_new_poster') }}">Ajouter un showroom</a>
+                                        </div>
+                                    {% endif %}
+                                </section>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </section>
 
-    <section class="page-section cta">
+    <section class="cta" style="padding-top: 8rem">
       <div class="container">
         <div class="row">
           <div class="col-xl-9 mx-auto">
             <div class="cta-inner text-center rounded bg-dark text-white">
               <h2 class="section-heading mb-5">
-                <span class="section-heading-upper">On vous attend !</span>
-                <span class="section-heading-lower">Horaires d'ouverture</span>
+                <span class="broc section-heading-lower">Horaires</span>
               </h2>
               <ul class="list-unstyled list-hours mb-5 text-left mx-auto">
-                <li class="list-unstyled-item list-hours-item d-flex">
-                  Sunday
-                  <span class="ml-auto">Closed</span>
-                </li>
-                <li class="list-unstyled-item list-hours-item d-flex">
-                  Monday
-                  <span class="ml-auto">7:00 AM to 8:00 PM</span>
-                </li>
-                <li class="list-unstyled-item list-hours-item d-flex">
-                  Tuesday
-                  <span class="ml-auto">7:00 AM to 8:00 PM</span>
-                </li>
-                <li class="list-unstyled-item list-hours-item d-flex">
-                  Wednesday
-                  <span class="ml-auto">7:00 AM to 8:00 PM</span>
-                </li>
-                <li class="list-unstyled-item list-hours-item d-flex">
-                  Thursday
-                  <span class="ml-auto">7:00 AM to 8:00 PM</span>
-                </li>
-                <li class="list-unstyled-item list-hours-item d-flex">
-                  Friday
-                  <span class="ml-auto">7:00 AM to 8:00 PM</span>
-                </li>
-                <li class="list-unstyled-item list-hours-item d-flex">
-                  Saturday
-                  <span class="ml-auto">9:00 AM to 5:00 PM</span>
-                </li>
+                {% if schedules is empty and app.user %}
+                  <div class="container d-flex justify-content-center align-items-center">
+                    <a class="btn btn-success btn-xl js-scroll-trigger mt-5 ml-3 mr-3" href="{{ path('showroom_initialize') }}">Initialiser les horaires</a>
+                  </div>
+                {% else %}
+                  {% for schedule in schedules %}
+                      {% if schedule.opening == 'Open' and schedule.meet == 'Not meet' %}
+                          <li class="list-unstyled-item list-hours-item d-flex flex-column">
+                              <span class="d-flex justify-content-center">{{ schedule.day }}</span><br>
+                              <span class="d-flex justify-content-center">
+                                  {{ schedule.startMorning|date('H\\hi') }}-{{ schedule.endMorning|date('H\\hi') }} | {{ schedule.startAfternoon|date('H\\hi') }}-{{ schedule.endAfternoon|date('H\\hi') }}
+                              </span>
+                      {% elseif schedule.opening == 'Close' and schedule.meet == 'Not meet' %}
+                          <li class="list-unstyled-item list-hours-item">
+                              <div class="d-flex">
+                                  {{ schedule.day }}
+                                  <span class="ml-auto">Fermé</span>
+                              </div>
+                      {% elseif schedule.opening == 'Open' and schedule.meet  == 'Meet' or schedule.opening == 'Close' and schedule.meet == 'Meet'%}
+                          <li class="list-unstyled-item list-hours-item">
+                              <div class="d-flex">
+                                  {{ schedule.day }}
+                                  <span class="ml-auto">Sur rendez-vous</span>
+                              </div>
+                      {% elseif schedule.opening == 'Open' and schedule.meet == 'Meet AM' or schedule.opening == 'Open PM' and schedule.meet == 'Meet AM' %}
+                          <li class="list-unstyled-item list-hours-item d-flex flex-column">
+                              <span class="d-flex justify-content-center">{{ schedule.day }}</span><br>
+                              <span class="d-flex justify-content-center">
+                                      Matin ur rdv | {{ schedule.startAfternoon|date('H\\hi') }}-{{ schedule.endAfternoon|date('H\\hi') }}
+                              </span>
+                      {% elseif schedule.opening == 'Open' and schedule.meet == 'Meet PM' or schedule.opening == 'Open AM' and schedule.meet == 'Meet PM' %}
+                          <li class="list-unstyled-item list-hours-item d-flex flex-column">
+                              <span class="d-flex justify-content-center">{{ schedule.day }}</span><br>
+                              <span class="d-flex justify-content-center">
+                                  {{ schedule.startMorning|date('H\\hi') }}-{{ schedule.endMorning|date('H\\hi') }} | Après-midi sur rdv
+                              </span>
+                      {% elseif schedule.opening == 'Open AM' and schedule.meet == 'Meet AM' or schedule.opening == 'Close' and schedule.meet == 'Meet AM'%}
+                          <li class="list-unstyled-item list-hours-item d-flex flex-column">
+                              <span class="d-flex justify-content-center">{{ schedule.day }}</span><br>
+                              <span class="d-flex justify-content-center">
+                                  Matin sur rdv | Après-midi fermé
+                              </span>
+                      {% elseif schedule.opening == 'Open PM' and schedule.meet == 'Meet PM' or schedule.opening == 'Close' and schedule.meet == 'Meet PM'%}
+                          <li class="list-unstyled-item list-hours-item d-flex flex-column">
+                              <span class="d-flex justify-content-center">{{ schedule.day }}</span><br>
+                              <span class="d-flex justify-content-center">
+                                  Matin fermé | Après-midi sur rdv
+                              </span>
+                      {% elseif schedule.opening == 'Open AM' and schedule.meet == 'Not meet'%}
+                          <li class="list-unstyled-item list-hours-item d-flex flex-column">
+                              <span class="d-flex justify-content-center">{{ schedule.day }}</span><br>
+                              <span class="d-flex justify-content-center">
+                                  {{ schedule.startMorning|date('H\\hi') }}-{{ schedule.endMorning|date('H\\hi') }} | Après-midi fermé
+                              </span>
+                      {% elseif schedule.opening == 'Open PM' and schedule.meet == 'Not meet'%}
+                          <li class="list-unstyled-item list-hours-item d-flex flex-column">
+                              <span class="d-flex justify-content-center">{{ schedule.day }}</span><br>
+                              <span class="d-flex justify-content-center">
+                                  Matin fermé | {{ schedule.startAfternoon|date('H\\hi') }}-{{ schedule.endAfternoon|date('H\\hi') }}
+                              </span>
+                      {% else %}
+                          <li class="list-unstyled-item list-hours-item text-danger">
+                              <div class="d-flex">
+                                  {{ schedule.day }}
+                                  <span class="ml-auto">Mettre à jour</span>
+                              </div>
+                      {% endif %}
+                      {% if app.user %}
+                          <div class="container d-flex justify-content-center align-items-center">
+                            <a class="btn btn-danger btn-xl js-scroll-trigger mt-3 mb-3" href="{{ path('showroom_edit_schedule', {'schedule': schedule.id}) }}">Modifier</a>
+                          </div>
+                      {% endif %}
+                      </li>
+                  {% endfor %}
+                {% endif %}
               </ul>
               <p class="address mb-5">
-                <em>
-                  <strong>1116 Orchard Street</strong>
-                  <br>
-                  Golden Valley, Minnesota
-                </em>
-              </p>
-              <p class="mb-0">
-                <small>
-                  <em>Call Anytime</em>
-                </small>
-                <br>
-                (317) 585-8468
-              </p>
+                  <strong>Adresse</strong><br>
+                  <a href="https://goo.gl/maps/ifC58pwEBLnVMjYc6" target="_blank">
+                      <strong>124, rue Nationale</strong><br>
+                        37250 Montbazon<br>
+                  </a>
+                  <h1 class="address"><strong>On vous attend !</strong></h1>
             </div>
           </div>
         </div>
@@ -83,10 +137,9 @@
     </section>
 
     {% block footer %}
-      {% include 'footer.html.twig' %}
+        {% include 'footer.html.twig' %}
     {% endblock %}
 
-  </body>
 {% endblock %}
 {% block javascripts %}
   {{ parent() }}

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Image{% endblock %}
+
+{% block body %}
+    <body class="container bg-dark text-white" style="padding-top: 8rem; min-height: 1000px">
+        <h1 class="text-center mb-5">Choisissez une action</h1>
+        <div class="d-flex justify-content-center row">
+            <a class="btn btn-danger btn-xl js-scroll-trigger mt-3 mb-3 ml-3 mr-3" href="{{ path('product_new_image', {'product' : product.id }) }}">Ajouter des images</a>
+            <a class="btn btn-danger btn-xl js-scroll-trigger mt-3 mb-3 ml-3 mr-3" href="{{ path('product_edit', {'product' : product.id }) }}">Modifier l'élément</a>
+            <a class="btn btn-light btn-xl js-scroll-trigger mt-3 mb-3 ml-3 mr-3" href="{{ path('shop_index') }}">Retour à la boutique</a>
+        </div>
+    </body>
+{% endblock %}

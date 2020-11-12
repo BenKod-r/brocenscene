@@ -1,5 +1,6 @@
 /.idea
 /.history
+/public/uploads/img
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -22,3 +23,9 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+###> symfony/docker ###
+docker-compose.yml
+000-default.conf
+Dockerfile
+###< symfony/docker ###

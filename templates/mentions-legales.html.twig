@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+    {% block title %}Générateur de mentions légales personnalisées{% endblock %}
+
+    {% block body %}
+
+        <section class="bg-dark text-white pb-5" style="padding-top: 8rem">
+            <div class="container p-3">
+                <div>
+                    <h3 class="broc text-center">MENTIONS LEGALES :</h3>
+                    <p style="text-align:justify"><strong>&nbsp;</strong><br/>
+                        Conform&eacute;ment aux dispositions des articles 6-III et 19 de la Loi n&deg; 2004-575 du 21 juin 2004 pour la Confiance dans l&#39;&eacute;conomie num&eacute;rique, dite L.C.E.N., nous portons &agrave; la connaissance des utilisateurs et visiteurs du site : <a href="http://www.brocenscene.com" target="_blank">www.brocenscene.com</a> les informations suivantes :</p>
+                    <p style="text-align:justify"><strong>&Eacute;DITEUR</strong></p>
+                    <p style="text-align:justify">Le site <a href="http://www.brocenscene.com" style="color: rgb(7, 130, 193); font-family: sans-serif, Arial, Verdana, " target="_blank">www.brocenscene.com</a>&nbsp;est la propri&eacute;t&eacute; exclusive de&nbsp;<strong>l'auto-entrepreneur&nbsp;</strong><strong>Broc En Scène</strong>, qui l&#39;&eacute;dite.</p>
+                    <p style="text-align:justify"><strong>Broc En Scène</strong><strong>&nbsp;</strong><br/>
+                        <strong>Auto-entrepreneur </strong>au capital de<strong>&nbsp;</strong><strong>1</strong>&euro;<br>T&eacute;l&nbsp; : <strong>0660319773</strong></p>
+                    <p style="text-align:justify"><strong>3 nouis &nbsp;</strong><strong>37250 Sorigny</strong><br/>
+                        Immatricul&eacute;e au Registre du Commerce et des Soci&eacute;t&eacute;s de&nbsp;&nbsp;<strong>00014 </strong>sous le num&eacute;ro<strong>&nbsp;</strong><strong>838377992</strong><strong>&nbsp;</strong></p>
+                    <p style="text-align:justify">Num&eacute;ro TVA intracommunautaire : <strong>0</strong><br/>
+                        Adresse de courrier &eacute;lectronique : <strong>brocenscene@gmail.com</strong>&nbsp;<br/>
+                        &nbsp;<br/>
+                        Directeur de la&nbsp; publication&nbsp;: <strong>Nadia JALLET</strong><br/>
+                        Contactez le responsable de la publication : <strong>brocenscene@gmail.com</strong></p>
+                    <p style="text-align:justify">&nbsp;</p>
+                    <p style="text-align:justify"><strong>H&Eacute;BERGEMENT</strong></p>
+                    <p style="text-align:justify">Le site est h&eacute;berg&eacute;&nbsp;par<br><strong>OVH<br>2 RUE KELLER MANN<br>59100 ROUBAIX</strong><br/>
+                </div>
+            </div>
+        </section>
+
+        {% block footer %}
+            {% include 'footer.html.twig' %}
+        {% endblock %}
+
+    {% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('js/base.js') }}"></script>
+    {% endblock %}
+

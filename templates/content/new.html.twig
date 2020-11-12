@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Content{% endblock %}
+
+{% block body %}
+    <section class="page-section about-heading bg-dark " style="padding-top: 8rem; min-height: 1000px">
+        <div class="text-white container">
+            {% if content.category == 'index' %}
+            <h1 class="text-center">Edition Poster page accueil</h1>
+            {% elseif content.category == 'flash' %}
+            <h1 class="text-center">Edition News page accueil</h1>
+            {% elseif content.category == 'project' %}
+            <h1 class="text-center">Edition Projet page accueil</h1>
+            {% elseif content.category == 'showroom' %}
+            <h1 class="text-center">Edition Poster page showroom</h1>
+            {% endif %}
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div class="d-flex justify-content-center row">
+                <button class="btn btn-success btn-xl js-scroll-trigger mt-3 mr-3">{{ button_label|default('Valider') }}</button>
+                <a class="btn btn-light btn-xl js-scroll-trigger mt-3" href="{{ path('home_index') }}">Retour</a>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </section>
+
+{% endblock %}
