@@ -25,7 +25,8 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 ###> symfony/docker ###
-docker-compose.yml
-000-default.conf
-Dockerfile
+/docker-compose.yml
+/000-default.conf
+/Dockerfile
+/public/.htaccess
 ###< symfony/docker ###
