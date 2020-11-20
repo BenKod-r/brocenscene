@@ -11,9 +11,9 @@ services:
       - db_data:/var/lib/mysql
 
   webserver:
-    image: khaleddwm/brocenscene:v1.1
+    image: khaleddwm/brocenscene:v0.1
     ports:
-      - "80:80"
+      - "80:8080"
     volumes:
       - web:/var/www/html/public/uploads
 
