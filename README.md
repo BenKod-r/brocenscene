@@ -1,6 +1,6 @@
-# Project Klacool Groupe - Starter Kit - Symfony 4.4.*
+# Project Broc En Scene - Starter Kit - Symfony 4.4.*
 
-![Wild Code School](https://www.brocenscene.com/img/logo.png)
+![Broc En Scene](https://www.brocenscene.com/img/logo.png)
 
 ## Getting Started
 
